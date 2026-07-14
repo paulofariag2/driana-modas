@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driana Modas — Moda que veste sua história</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine: #5C1A33;
+    --wine-deep: #3A1120;
+    --gold: #C9A24B;
+    --gold-soft: #E3CD9A;
+    --blush: #F0D9D2;
+    --ivory: #FBF6F0;
+    --ink: #2A1F22;
+    --line: rgba(42,31,34,0.14);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3, .display{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+
+  .mono{ font-family:'Space Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img, svg{ display:block; max-width:100%; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(251,246,240,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    transition:background .3s ease;
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.6rem; font-weight:600;
+    letter-spacing:0.03em;
+    color:var(--wine);
+  }
+  .logo em{ font-style:italic; color:var(--gold); }
+  nav ul{ list-style:none; display:flex; gap:36px; }
+  nav a{
+    font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink); position:relative; padding-bottom:4px;
+  }
+  nav a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background:var(--gold); transition:width .25s ease;
+  }
+  nav a:hover::after{ width:100%; }
+
+  .nav-cta{
+    background:var(--wine); color:var(--ivory);
+    padding:10px 20px; border-radius:2px;
+    font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .nav-cta:hover{ background:var(--wine-deep); }
+
+  .burger{ display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; }
+  .burger span{ width:24px; height:2px; background:var(--ink); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding:120px 32px 80px;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(201,162,75,0.14), transparent 55%),
+      var(--ivory);
+    overflow:hidden;
+  }
+  .hero-grid{
+    max-width:1180px; margin:0 auto; width:100%;
+    display:grid; grid-template-columns:1.2fr 0.8fr; gap:60px; align-items:center;
+  }
+  .eyebrow{
+    font-size:0.78rem; letter-spacing:0.28em; text-transform:uppercase;
+    color:var(--wine); margin-bottom:22px; display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::before{ content:''; width:34px; height:1px; background:var(--gold); display:inline-block; }
+
+  .hero h1{
+    font-size:clamp(3.4rem, 8vw, 6.4rem);
+    line-height:0.96;
+    color:var(--wine);
+  }
+  .hero h1 .it{ font-style:italic; color:var(--gold); font-weight:500; }
+
+  .hero p.sub{
+    max-width:420px; margin-top:26px; font-size:1.08rem; line-height:1.6; color:#4a3a3e;
+  }
+
+  .hero-actions{ display:flex; gap:18px; margin-top:40px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 30px; font-size:0.82rem; letter-spacing:0.1em; text-transform:uppercase;
+    border-radius:2px; transition:transform .25s ease, background .25s ease;
+  }
+  .btn-primary{ background:var(--wine); color:var(--ivory); }
+  .btn-primary:hover{ background:var(--wine-deep); transform:translateY(-2px); }
+  .btn-outline{ border:1px solid var(--ink); color:var(--ink); }
+  .btn-outline:hover{ background:var(--ink); color:var(--ivory); transform:translateY(-2px); }
+
+  /* signature: hanging price-tag badge */
+  .hero-tag-wrap{ position:relative; display:flex; justify-content:center; }
+  .hero-string{
+    width:1px; height:64px; background:var(--gold); margin:0 auto;
+  }
+  .price-tag{
+    position:relative;
+    width:230px; aspect-ratio:1/1.15;
+    background:var(--wine);
+    clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 28% 100%, 0% 50%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; color:var(--ivory);
+    padding:20px 20px 20px 46px;
+    animation: swing 6s ease-in-out infinite;
+    transform-origin: 50% -20px;
+    box-shadow: 0 30px 60px -20px rgba(58,17,32,0.45);
+  }
+  .price-tag .hole{
+    position:absolute; top:34px; left:52px;
+    width:14px; height:14px; border-radius:50%;
+    border:2px solid var(--gold-soft); background:var(--ivory);
+  }
+  .price-tag .tag-label{ font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:10px;}
+  .price-tag .tag-brand{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:1.7rem; line-height:1.15; }
+  .price-tag .tag-code{ margin-top:14px; font-size:0.72rem; letter-spacing:0.08em; color:var(--gold-soft); }
+
+  @keyframes swing{
+    0%,100%{ transform:rotate(-4deg); }
+    50%{ transform:rotate(4deg); }
+  }
+
+  .hero-garment{ position:absolute; opacity:0.9; }
+  .g1{ width:110px; top:14%; right:6%; }
+  .g2{ width:70px; bottom:8%; left:2%; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{ padding:120px 0; }
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-head .eyebrow{ justify-content:flex-start; }
+  .section-head h2{ font-size:clamp(2.2rem,4.2vw,3.2rem); color:var(--wine); }
+  .section-head p{ margin-top:18px; font-size:1rem; line-height:1.7; color:#5a484d; }
+
+  .bg-wine{ background:var(--wine); color:var(--ivory); }
+  .bg-wine .section-head h2{ color:var(--ivory); }
+  .bg-wine .section-head p{ color:var(--blush); }
+  .bg-wine .eyebrow{ color:var(--gold-soft); }
+  .bg-wine .eyebrow::before{ background:var(--gold-soft); }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center; }
+  .about-visual{
+    position:relative; aspect-ratio:4/5; background:var(--blush);
+    display:flex; align-items:center; justify-content:center;
+    border-radius:2px;
+  }
+  .about-visual svg{ width:58%; }
+  .stitch-frame{
+    position:absolute; inset:18px; border:1.5px dashed var(--gold);
+    pointer-events:none;
+  }
+  .about-copy p{ font-size:1.02rem; line-height:1.85; color:#4a3a3e; margin-bottom:20px; }
+  .about-copy p:first-child{ font-family:'Cormorant Garamond', serif; font-size:1.5rem; font-style:italic; color:var(--wine); line-height:1.5; }
+
+  .stat-row{ display:flex; gap:44px; margin-top:36px; }
+  .stat b{ display:block; font-family:'Cormorant Garamond', serif; font-size:2.2rem; color:var(--wine); }
+  .stat span{ font-size:0.76rem; letter-spacing:0.1em; text-transform:uppercase; color:#7a6a6e; }
+
+  /* ---------- CATEGORIES (tag cards) ---------- */
+  .cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+  .cat-card{
+    position:relative;
+    background:var(--ivory);
+    border:1px solid var(--line);
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 92% 100%, 0 100%);
+    padding:38px 24px 30px;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease;
+    cursor:default;
+  }
+  .cat-card:hover{ transform:translateY(-8px); box-shadow:0 24px 40px -20px rgba(92,26,51,0.25); background:#fff; }
+  .cat-card .hole{
+    position:absolute; top:16px; right:16px; width:10px; height:10px;
+    border-radius:50%; border:1.5px solid var(--gold); background:var(--ivory);
+  }
+  .cat-card svg{ width:52px; height:52px; margin-bottom:22px; color:var(--wine); }
+  .cat-card h3{ font-size:1.4rem; color:var(--wine); margin-bottom:8px; }
+  .cat-card p{ font-size:0.86rem; color:#7a6a6e; line-height:1.5; }
+  .cat-card .count{ margin-top:16px; font-size:0.7rem; letter-spacing:0.1em; color:var(--gold); }
+
+  /* ---------- LOOKS / PRODUCTS ---------- */
+  .look-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:30px; }
+  .look-card{ background:var(--ivory); border:1px solid var(--line); overflow:hidden; }
+  .look-visual{
+    aspect-ratio:3/4; position:relative;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--blush), #f7e9e4);
+  }
+  .look-visual svg{ width:46%; color:var(--wine); }
+  .look-badge{
+    position:absolute; top:14px; left:14px;
+    background:var(--wine); color:var(--gold-soft);
+    font-size:0.66rem; letter-spacing:0.12em; text-transform:uppercase;
+    padding:6px 10px;
+  }
+  .look-info{ padding:22px 22px 26px; display:flex; justify-content:space-between; align-items:flex-end; }
+  .look-info h3{ font-size:1.25rem; color:var(--wine); }
+  .look-info span.mono{ font-size:0.78rem; color:#7a6a6e; }
+  .look-price{ font-family:'Space Mono', monospace; font-size:1rem; color:var(--wine); }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .quote-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:30px; }
+  .quote-card{ border-left:2px solid var(--gold-soft); padding-left:24px; }
+  .quote-card p{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:1.25rem; line-height:1.55; color:var(--blush); margin-bottom:16px; }
+  .quote-card .who{ font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-soft); }
+
+  /* ---------- INSTAGRAM STRIP ---------- */
+  .insta-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:12px; }
+  .insta-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+  .insta-tile{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    color:var(--ivory); position:relative; overflow:hidden;
+  }
+  .insta-tile svg{ width:34%; opacity:0.85; }
+  .t1{ background:var(--wine); }
+  .t2{ background:#7a2c46; }
+  .t3{ background:var(--gold); }
+  .t4{ background:#4a1c2e; }
+  .t5{ background:#c98a92; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:70px; }
+  .info-row{ display:flex; gap:18px; padding:20px 0; border-bottom:1px solid var(--line); }
+  .info-row .k{ width:110px; font-size:0.74rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); flex-shrink:0; }
+  .info-row .v{ font-size:0.98rem; color:#3a2c30; line-height:1.6; }
+  .map-block{
+    background:var(--blush); aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; border:1px solid var(--line);
+  }
+  .map-block svg{ width:50%; color:var(--wine); }
+  .map-pin-label{ position:absolute; bottom:18px; left:18px; font-size:0.76rem; letter-spacing:0.06em; color:var(--wine); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:var(--wine-deep); color:var(--blush); padding:60px 0 30px; }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:50px; margin-bottom:50px; }
+  .foot-logo{ font-family:'Cormorant Garamond', serif; font-size:1.6rem; color:var(--ivory); margin-bottom:14px; }
+  .foot-logo em{ font-style:italic; color:var(--gold); }
+  footer p{ font-size:0.92rem; line-height:1.7; max-width:280px; color:var(--blush); }
+  footer h4{ font-family:'Jost'; font-weight:500; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:16px; }
+  footer ul{ list-style:none; }
+  footer li{ margin-bottom:10px; font-size:0.9rem; }
+  footer li a:hover{ color:var(--gold-soft); }
+  .foot-bottom{ border-top:1px solid rgba(251,246,240,0.14); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.76rem; color:rgba(240,217,210,0.6); }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .whats-float{
+    position:fixed; bottom:26px; right:26px; z-index:90;
+    background:var(--wine); color:var(--ivory);
+    width:58px; height:58px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 12px 30px -8px rgba(58,17,32,0.5);
+    transition:transform .25s ease;
+  }
+  .whats-float:hover{ transform:scale(1.08); }
+  .whats-float svg{ width:26px; height:26px; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:940px){
+    nav, .nav-cta{ display:none; }
+    .burger{ display:flex; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-tag-wrap{ margin-top:40px; }
+    .about-grid, .contact-grid{ grid-template-columns:1fr; }
+    .cat-grid{ grid-template-columns:repeat(2,1fr); }
+    .look-grid{ grid-template-columns:1fr; max-width:420px; margin:0 auto; }
+    .quote-strip{ grid-template-columns:1fr; gap:36px; }
+    .insta-grid{ grid-template-columns:repeat(3,1fr); }
+    .foot-grid{ grid-template-columns:1fr; gap:36px; }
+    .section{ padding:80px 0; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .price-tag{ animation:none; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <a href="#top" class="logo">Driana <em>Modas</em></a>
+    <nav>
+      <ul>
+        <li><a href="#colecao">Coleção</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#looks">Looks</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/5500000000000" target="_blank" rel="noopener">Fale conosco</a>
+    <button class="burger" onclick="const m=document.getElementById('mnav'); m.style.display = m.style.display==='flex' ? 'none' : 'flex';" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div id="mnav" style="display:none; flex-direction:column; padding:0 32px 24px; gap:16px;">
+    <a href="#colecao">Coleção</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#looks">Looks</a>
+    <a href="#contato">Contato</a>
+    <a href="https://wa.me/5500000000000" target="_blank" rel="noopener" style="color:var(--wine); font-weight:500;">Fale no WhatsApp</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <svg class="hero-garment g1" viewBox="0 0 100 120" fill="none" stroke="#C9A24B" stroke-width="1.4">
+    <path d="M50 8 L38 20 L30 30 L38 34 L42 28 L42 112 L58 112 L58 28 L62 34 L70 30 L62 20 Z"/>
+  </svg>
+  <svg class="hero-garment g2" viewBox="0 0 100 100" fill="none" stroke="#5C1A33" stroke-width="1.4">
+    <circle cx="50" cy="20" r="10"/>
+    <path d="M30 30 Q50 20 70 30 L76 90 Q50 100 24 90 Z"/>
+  </svg>
+  <div class="hero-grid wrap">
+    <div>
+      <div class="eyebrow">Boutique de moda feminina</div>
+      <h1>Vista-se de<br><span class="it">quem você é</span></h1>
+      <p class="sub">Peças escolhidas a dedo, caimento pensado para o seu corpo e um atendimento que trata cada cliente como visita de casa. Essa é a Driana Modas.</p>
+      <div class="hero-actions">
+        <a href="#colecao" class="btn btn-primary">Ver coleção</a>
+        <a href="https://wa.me/5500000000000" target="_blank" rel="noopener" class="btn btn-outline">Fale no WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-tag-wrap">
+      <div>
+        <div class="hero-string"></div>
+        <div class="price-tag">
+          <div class="hole"></div>
+          <div class="tag-label">Nova coleção</div>
+          <div class="tag-brand">Inverno<br>em cores</div>
+          <div class="tag-code mono">DM · 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sobre">
+  <div class="wrap about-grid">
+    <div class="about-visual reveal">
+      <div class="stitch-frame"></div>
+      <svg viewBox="0 0 100 100" fill="none" stroke="#5C1A33" stroke-width="1.2">
+        <path d="M50 10 L38 22 L30 32 L38 36 L42 30 L42 88 L58 88 L58 30 L62 36 L70 32 L62 22 Z"/>
+        <path d="M42 45 L58 45" stroke-dasharray="2 3"/>
+        <path d="M42 60 L58 60" stroke-dasharray="2 3"/>
+      </svg>
+    </div>
+    <div class="about-copy reveal">
+      <div class="eyebrow">Nossa história</div>
+      <p>Tudo começou com uma paixão simples: ajudar cada mulher a se sentir bem na própria pele.</p>
+      <p>A Driana Modas nasceu do sonho de trazer moda de verdade para o dia a dia — peças versáteis, tecidos de qualidade e preços justos, selecionados por quem entende de moda e de gente.</p>
+      <p>Hoje somos referência no bairro, com uma curadoria renovada toda semana e um atendimento pensado para cada cliente, do provador ao pós-venda.</p>
+      <div class="stat-row">
+        <div class="stat"><b>+8</b><span>Anos de loja</span></div>
+        <div class="stat"><b>+3mil</b><span>Clientes atendidas</span></div>
+        <div class="stat"><b>100%</b><span>Curadoria própria</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="colecao" style="background:#f6ece6;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">O que você encontra aqui</div>
+      <h2>Categorias da estação</h2>
+      <p>Uma seleção enxuta e trocada com frequência — sem estoque parado, sem peça repetida.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card reveal">
+        <div class="hole"></div>
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M50 12 L36 26 L26 38 L36 44 L42 36 L42 90 L58 90 L58 36 L64 44 L74 38 L64 26 Z"/></svg>
+        <h3>Vestidos</h3>
+        <p>Do casual ao festa, para todos os momentos da sua semana.</p>
+        <div class="count mono">32 peças</div>
+      </div>
+      <div class="cat-card reveal">
+        <div class="hole"></div>
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M50 14 L30 26 L24 46 L34 48 L38 38 L38 88 L62 88 L62 38 L66 48 L76 46 L70 26 Z"/></svg>
+        <h3>Blusas</h3>
+        <p>Bases versáteis para compor looks o ano inteiro.</p>
+        <div class="count mono">48 peças</div>
+      </div>
+      <div class="cat-card reveal">
+        <div class="hole"></div>
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M32 14 H68 L70 90 H56 L52 44 L48 44 L44 90 H30 Z"/></svg>
+        <h3>Calças</h3>
+        <p>Modelagens que valorizam cada tipo de corpo.</p>
+        <div class="count mono">26 peças</div>
+      </div>
+      <div class="cat-card reveal">
+        <div class="hole"></div>
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><circle cx="50" cy="24" r="10"/><path d="M30 40 Q50 30 70 40 L76 88 Q50 96 24 88 Z"/></svg>
+        <h3>Acessórios</h3>
+        <p>O detalhe final que assina o seu look.</p>
+        <div class="count mono">19 peças</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="looks">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Selecionados pela Driana</div>
+      <h2>Looks da semana</h2>
+      <p>Três combinações prontas para você provar. Todos os itens em estoque limitado.</p>
+    </div>
+    <div class="look-grid">
+      <div class="look-card reveal">
+        <div class="look-visual">
+          <div class="look-badge">Mais vendido</div>
+          <svg viewBox="0 0 100 120" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 8 L38 20 L30 30 L38 34 L42 28 L42 112 L58 112 L58 28 L62 34 L70 30 L62 20 Z"/></svg>
+        </div>
+        <div class="look-info">
+          <div><h3>Vestido Rosa Antigo</h3><span class="mono">Viscose leve</span></div>
+          <div class="look-price">R$ 189</div>
+        </div>
+      </div>
+      <div class="look-card reveal">
+        <div class="look-visual">
+          <div class="look-badge">Novidade</div>
+          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2"><path d="M30 26 L20 40 L32 46 L36 34 L36 84 L64 84 L64 34 L68 46 L80 40 L70 26 Z"/></svg>
+        </div>
+        <div class="look-info">
+          <div><h3>Blazer Alfaiataria</h3><span class="mono">Corte reto</span></div>
+          <div class="look-price">R$ 249</div>
+        </div>
+      </div>
+      <div class="look-card reveal">
+        <div class="look-visual">
+          <div class="look-badge">Edição limitada</div>
+          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2"><path d="M32 14 H68 L70 90 H56 L52 44 L48 44 L44 90 H30 Z"/></svg>
+        </div>
+        <div class="look-info">
+          <div><h3>Calça Wide Leg</h3><span class="mono">Alfaiataria</span></div>
+          <div class="look-price">R$ 159</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-wine">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Quem já vestiu</div>
+      <h2>O que dizem sobre a loja</h2>
+    </div>
+    <div class="quote-strip">
+      <div class="quote-card reveal">
+        <p>"Cada peça parece ter sido escolhida pensando em mim. Saio de lá sempre com algo que uso muito."</p>
+        <div class="who">Marcia S.</div>
+      </div>
+      <div class="quote-card reveal">
+        <p>"O atendimento é o diferencial. Me ajudam a montar o look todo, sem pressa."</p>
+        <div class="who">Renata A.</div>
+      </div>
+      <div class="quote-card reveal">
+        <p>"Comprei um vestido para um casamento e recebi elogios a noite toda. Virei cliente fiel."</p>
+        <div class="who">Juliana P.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="insta-head reveal">
+      <div>
+        <div class="eyebrow">Bastidores e novidades</div>
+        <h2 style="font-size:2rem; color:var(--wine);">@drianamodas</h2>
+      </div>
+      <a href="#" class="btn btn-outline">Seguir no Instagram</a>
+    </div>
+    <div class="insta-grid">
+      <div class="insta-tile t1 reveal"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M50 12 L36 26 L42 36 L42 90 L58 90 L58 36 L64 26 Z"/></svg></div>
+      <div class="insta-tile t2 reveal"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><circle cx="50" cy="24" r="10"/><path d="M30 40 Q50 30 70 40 L76 88 Q50 96 24 88 Z"/></svg></div>
+      <div class="insta-tile t3 reveal"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M32 14 H68 L70 90 H56 L52 44 L48 44 L44 90 H30 Z"/></svg></div>
+      <div class="insta-tile t4 reveal"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M30 26 L20 40 L36 34 L36 84 L64 84 L64 34 L80 40 L70 26 Z"/></svg></div>
+      <div class="insta-tile t5 reveal"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4"><path d="M50 12 L36 26 L42 36 L42 90 L58 90 L58 36 L64 26 Z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contato" style="background:#f6ece6;">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <div class="eyebrow">Venha nos visitar</div>
+      <h2 style="font-size:2.4rem; color:var(--wine); margin-bottom:30px;">Fale com a gente</h2>
+      <div class="info-row">
+        <div class="k">Endereço</div>
+        <div class="v">Rua das Flores, 123 – Centro<br>Caraguatatuba – SP</div>
+      </div>
+      <div class="info-row">
+        <div class="k">Horário</div>
+        <div class="v">Seg. a Sáb.: 9h às 19h<br>Domingo: fechado</div>
+      </div>
+      <div class="info-row">
+        <div class="k">Contato</div>
+        <div class="v">(12) 90000-0000<br>contato@drianamodas.com.br</div>
+      </div>
+      <div style="margin-top:32px;">
+        <a href="https://wa.me/5500000000000" target="_blank" rel="noopener" class="btn btn-primary">Chamar no WhatsApp</a>
+      </div>
+    </div>
+    <div class="map-block reveal">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 10 C34 10 24 24 24 40 C24 62 50 90 50 90 C50 90 76 62 76 40 C76 24 66 10 50 10 Z"/><circle cx="50" cy="40" r="10"/></svg>
+      <div class="map-pin-label mono">Rua das Flores, 123</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Driana <em>Modas</em></div>
+        <p>Moda feminina com curadoria própria e atendimento de verdade. Do provador direto para o seu guarda-roupa.</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#colecao">Coleção</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#looks">Looks</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Redes</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="https://wa.me/5500000000000" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Driana Modas. Todos os direitos reservados.</span>
+      <span>Feito com carinho, peça por peça.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="whats-float" href="https://wa.me/5500000000000" target="_blank" rel="noopener" aria-label="Fale no WhatsApp">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.02 3C9.4 3 4 8.37 4 15c0 2.36.68 4.55 1.85 6.4L4 29l7.83-1.8A11.9 11.9 0 0 0 16.02 27C22.64 27 28 21.63 28 15S22.64 3 16.02 3Zm0 21.6c-1.98 0-3.83-.55-5.4-1.5l-.38-.22-4.02.93.86-3.9-.25-.4A9.5 9.5 0 0 1 5.5 15c0-5.8 4.72-10.5 10.52-10.5S26.5 9.2 26.5 15 21.8 24.6 16.02 24.6Zm5.4-7.6c-.3-.15-1.77-.87-2.05-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.96 1.17-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.65-.94-2.26-.25-.6-.5-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.25 5.17 4.56.72.31 1.28.5 1.72.63.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.18-1.42-.08-.13-.28-.2-.58-.35Z"/></svg>
+</a>
+
+<script>
+  // mobile nav toggle display
+  const mnav = document.getElementById('mnav');
+  document.querySelectorAll('#mnav a').forEach(a=>a.addEventListener('click',()=>{ mnav.style.display='none'; }));
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
